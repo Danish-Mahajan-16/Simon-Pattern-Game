@@ -29,16 +29,23 @@ let addAnimation = (randomColor) => {
   }, 150);
 };
 
+let simulatePattern = (patternArray, index = 0) => {
+  if (index >= patternArray.length) {
+    return;
+  }
+  setTimeout(() => {
+    let buttonId = patternArray[index];
+    makeSound(buttonId);
+    addAnimation(buttonId);
+    index++;
+    simulatePattern(patternArray, index);
+  }, 500);
+};
+
 $(document).keypress(function () {
   let patternArray = generatePattern();
   console.log("pattern genetated", patternArray);
-  let i = 0;
-  while(i<patternArray.length){
-      setTimeout(()=>{
-          $(`#${patternArray[i]}`).click();
-          i++;
-      },1000)
-  }
+  simulatePattern(patternArray);
 });
 
 $(".btn").click(function () {
